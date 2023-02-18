@@ -1,0 +1,759 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+require APPPATH . '/libraries/REST_Controller.php';
+class Shreeja_api extends REST_Controller 
+{
+ public function __construct() 
+       {
+        parent::__construct();
+       
+           $this->load->helper(array('form', 'url','date'));
+		   $this->load->database();
+		   $this->load->model('user_model');
+		   date_default_timezone_set('Asia/Kolkata');
+	    }
+	
+	
+	public function consolidation_post(){
+		$aid = $this->input->post('userid');
+		$date = $this->input->post('date');
+		$shift = $this->input->post('shift');
+		$data = $this->user_model->consolidation_data($aid,$date,$shift);
+		//$this->response($data, REST_Controller::HTTP_OK); exit();
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+	
+	 public function deliveredorders_post(){
+	
+		$data = $this->user_model->delivered_orders($this->input->post('userid'));
+		//$this->response($data, REST_Controller::HTTP_OK); exit();
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+	public function pdqty_post(){
+	
+		$data = $this->user_model->allProductquantity($this->input->post('userid'));
+		//$this->response($data, REST_Controller::HTTP_OK); exit();
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+		public function filterpdqty_post(){
+	
+		$data = $this->user_model->filterProductquantity($this->input->post());
+		//$this->response($data, REST_Controller::HTTP_OK); exit();
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+	
+	
+	    
+    public function subscribestatusupdate_post(){
+	
+		$data = $this->user_model->sstatus_update($this->input->post());
+		//$this->response($data, REST_Controller::HTTP_OK); exit();
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+      
+     public function viewindent_post(){
+	
+		$data = $this->user_model->indent_view($this->input->post());
+		//$this->response($data, REST_Controller::HTTP_OK); exit();
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+	public function indentupdate_post(){
+	
+		$data = $this->user_model->indent_update($this->input->post());
+		//$this->response($data, REST_Controller::HTTP_OK); exit();
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+    public function myindents_post(){
+	
+		$data = $this->user_model->my_indents($this->input->post());
+		//$this->response($data, REST_Controller::HTTP_OK); exit();
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+	public function cancleindent_post(){
+	
+		$data = $this->user_model->cancle_indent($this->input->post());
+		
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+    public function logo_get(){
+	
+		$data = base_url()."uploads/general/logo/header/aa455fae43079744dca18f00127a8cad.jpg";
+		$this->response($data, REST_Controller::HTTP_OK); exit();
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+	public function indentorder_post(){
+        $data = $this->user_model->indent_order($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+	
+	public function step1_post(){
+		$num = $this->input->post("mobile");
+		
+		$data = $this->user_model->insert_number($num);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+	public function passwordotp_post(){
+		$num = $this->input->post("mobile");
+		$data = $this->user_model->forgot_otp($num);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+	public function login_post(){
+		$num = $this->input->post("mobile");
+		$pass = $this->input->post("password");
+		$data = $this->user_model->do_login($num,$pass);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	public function agentlogin_post(){
+		$num = $this->input->post("mobile");
+		$pass = $this->input->post("password");
+		$data = $this->user_model->agent_login($num,$pass);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+    
+    
+    public function resendotp_post(){
+        $num = $this->input->post("mobile");
+        $data = $this->user_model->resend_otp($num);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+    }
+	public function checkotp_post(){
+		$num = $this->input->post("mobile");
+		$otp = $this->input->post("otp");
+
+		$data = $this->
+		user_model->check_otp($num,$otp);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+	}
+	
+
+	public function shreejalocations_get(){
+
+		$data = $this->user_model->shreeja_locations();
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+
+	public function locationupdate_post(){
+		$userid = $this->input->post("userid");
+		$locid = $this->input->post("location");
+		$data = $this->user_model->location_update($userid,$locid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+
+	public function personaldataupdate_post(){
+
+		$data = $this->
+		user_model->personal_update($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	
+	public function passwordupdate_post(){
+
+		$data = $this->
+		user_model->password_update($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+
+	public function userdata_post(){
+		$userid = $this->input->post("userid");
+		$data = $this->user_model->get_user($userid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	
+	public function shreeja_areas_post(){
+		$lid = $this->input->post("location");
+		$data = $this->user_model->areas($lid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+
+	public function products_post(){
+		$lid = $this->input->post("location");
+		$uid = $this->input->post("userid");
+		$data = $this->user_model->all_products($lid,$uid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+    
+    public function product_view_post(){
+		$pid = $this->input->post("productid");
+		$data = $this->user_model->product_view($pid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+    
+    public function sproduct_view_post(){
+        $id = $this->input->post("id");
+		$data = $this->user_model->sample_product_view($id);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+        
+    }
+	public function freesample_post(){
+		$lid = $this->input->post("location");
+		$data = $this->user_model->free_sample($lid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	public function order_freesample_post(){
+	    $id = $this->input->post("id");
+	     $uid = $this->input->post("userid");
+	  $ddate = $this->input->post("delivery_date");
+	  $address = $this->input->post("shipping_address"); 
+	  $shift = $this->input->post("shift");
+	    $data = $this->user_model->insertSampleOrder($uid,$ddate,$address,$id,$shift);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	
+	public function orderproduct_post(){
+	    
+	    $data = $this->user_model->order_product($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+			
+			
+	}
+	public function paymentstatus_post(){
+	    
+	    $data = $this->user_model->order_status($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+			
+			
+	}
+	
+	public function pauseorder_post(){
+	    
+	    $data = $this->user_model->pausesubscribtion($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+			
+			
+	}
+	public function myorders_post(){
+	    $uid = $this->input->post("userid");
+	    $data = $this->user_model->my_orders($uid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+			
+			
+	}
+		public function sampleorders_post(){
+	    $uid = $this->input->post("userid");
+	    $data = $this->user_model->freesample_history($uid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+			
+			
+	}
+	
+	public function mypayments_post(){
+	    $uid = $this->input->post("userid");
+	    $data = $this->user_model->my_payments($uid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+			
+			
+	}
+	
+	public function subscribeproduct_details_post(){
+	    $uid = $this->input->post("userid");
+	    $oid = $this->input->post("orderid");
+	    $data = $this->user_model->subscribe_dates($uid,$oid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}
+			
+			
+	}
+	
+
+	public function addtocart_post(){
+	    header('Content-type: application/json');
+	    $uid = $this->input->post('userid');
+	    $object = $this->input->post('object');
+	    
+	      $data = $this->user_model->add_cart($object,$uid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	
+	public function getcart_post(){
+	    $userid = $this->input->post('userid');
+	      $data = $this->user_model->get_cart($userid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	
+	public function updatecart_post(){
+	    $userid = $this->input->post('userid');
+	      $data = $this->user_model->update_cart($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	
+	public function emptycart_post(){
+	    $userid = $this->input->post('userid');
+	      $data = $this->user_model->empty_cart($userid);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	
+	public function offers_get(){
+	    
+	      $data = $this->user_model->my_offers();
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	
+	public function agentorders_post(){
+	    $userid = $this->input->post('userid');
+	     $date = ($this->input->post('date'))?$this->input->post('date'):"";
+	      $data = $this->user_model->active_agent_list($userid, $date);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	
+	public function filteractive_post(){
+	    $userid = $this->input->post('userid');
+	     $date = ($this->input->post('date'))?$this->input->post('date'):"";
+	      $data = $this->user_model->filter_active_orders($userid, $date);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	public function filterdelivered_post(){
+	    $userid = $this->input->post('userid');
+	     $date = ($this->input->post('date'))?$this->input->post('date'):"";
+	      $data = $this->user_model->filter_delivered_orders($userid, $date);
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	
+	}
+	
+	public function agentdeliveryonce_post(){
+       
+	      $data = $this->user_model->deliveryonce_orders($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }
+    
+    public function agentfreesample_post(){
+       
+	      $data = $this->user_model->freesample_orders($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }
+	 
+    public function agentsubscribeorders_post(){
+       
+	      $data = $this->user_model->agent_subscribed_orders($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }   
+    public function checkpromocode_post(){
+       
+	      $data = $this->user_model->checkPromo($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }
+	
+	 public function viewagentorder_post(){
+       
+	      $data = $this->user_model->viewagent_order($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }
+    
+     public function viewagentfreesample_post(){
+       
+	      $data = $this->user_model->viewagent_freesample($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }
+    
+	 public function agentprofile_post(){
+       
+	      $data = $this->user_model->agent_profile($this->input->post('userid'));
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }
+     public function agentprofileupdate_post(){
+       
+	      $data = $this->user_model->agent_profile_update($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }
+    
+     public function agentpasswordupdate_post(){
+       
+	      $data = $this->user_model->agent_password_update($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }
+    
+    public function agentdeliverystatus_post(){
+       
+	      $data = $this->user_model->updateDeliverystatus($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }
+    
+    public function cancleorder_post(){
+       
+	      $data = $this->user_model->cancle_order($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }
+    
+     public function getgst_post(){
+       
+	      $data = $this->user_model->get_gst($this->input->post());
+		if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+    }
+    
+    
+    
+     public function generateInvoice_get(){
+		$oid = $this->input->get('orderid');
+	     //$data = $this->user_model->get_invoice($oid);
+	     $od = $this->db->get_where("orders",array("order_id"=>$oid,"payment_status"=>"Success"))->num_rows();
+	     $fod = $this->db->get_where("tbl_free_sample_orders",array("order_id"=>$oid))->row();
+	     if($od > 0){
+	         $mydata =  $this->db->get_where("orders",array("order_id"=>$oid,"payment_status"=>"Success"))->row();
+	     }else{
+	         $mydata = $fod;
+	     }
+		$dd["o"] = $mydata;
+		//return $dd;
+		$data =  $this->load->view('paytm/invoice',$dd);	
+	    $this->response($data, REST_Controller::HTTP_OK); exit();
+	     //$this->response($data, REST_Controller::HTTP_OK); 
+	    	if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+	}
+    
+    public function agentproducts_post(){
+		$location = $this->input->post('location');
+	     $data = $this->user_model->agent_products($location);
+	    	if($data['status'])
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}else
+			{
+				$this->response($data, REST_Controller::HTTP_OK);
+			}	 
+	}
+}

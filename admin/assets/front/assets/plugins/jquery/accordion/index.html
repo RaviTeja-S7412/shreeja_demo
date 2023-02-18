@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/simple-accordion.css">
+	<link rel="stylesheet" href="css/sample.css">
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+	<title>Semantic Multi-level Accordion Plugin Demo</title>
+</head>
+<body>
+	<div id="sample-1">
+		<nav class="myAccordion">
+			<div class="myAccordion__inner">
+    <ul class="myAccordion-list ac ac--animation">
+      <li>
+        <a href="#">Accordion 1</a>
+        <ul>
+          <li>
+            What ever is your age, drinking milk at any age is important for good health. Milk is a good source of vitamin D and calcium, which older adults need more to maintain bone strength, muscle strength and prevent osteoporosis.
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Accordion 2</a>
+        <ul>
+          <li>What ever is your age, drinking milk at any age is important for good health. Milk is a good source of vitamin D and calcium, which older adults need more to maintain bone strength, muscle strength and prevent osteoporosis.</li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Accordion 3</a>
+        <ul>
+          <li>What ever is your age, drinking milk at any age is important for good health. Milk is a good source of vitamin D and calcium, which older adults need more to maintain bone strength, muscle strength and prevent osteoporosis.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+		</nav>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="js/jquery.simple.accoridion.js"></script>
+	<script>
+		// accordion
+		jQuery(function($){
+			$('.ac').simpleAccordion({
+				useLinks: false
+			});
+		});
+	</script>
+</body>
+
+</html>
+

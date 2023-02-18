@@ -1,0 +1,30 @@
+/* Tabs CSS begin */
+.tab {display: none;width:104.2%;}
+.tabs ul {
+    float: left;
+	margin-top: 0px;
+}
+.tabs ul > li {list-style: none;}
+.tabs ul > li a {
+    text-decoration: none;
+    padding: 10px;
+    color: #ded9d9 !Important;
+    display: inline-block;
+	padding-left: 20%;
+	color:white;
+}
+.tabs ul > li a:hover {
+    color: white !important;
+	font-weight:bold;
+}
+.btns
+{
+	font-family:hind;
+}
+.uper
+{
+	height:auto;
+	width:100%;
+	background:red;
+}
+/* Tabs CSS end */

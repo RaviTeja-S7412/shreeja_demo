@@ -1,0 +1,91 @@
+.wrap {
+    margin: auto;
+    width: 80%;
+	height:60%;
+	position:relative;
+	bottom:100px;
+}
+#tab
+{
+	color: black;
+}
+.lists
+{
+	width:calc(100% - 80px);
+	height:auto;
+	float:left;
+	padding-top:1%;
+	padding-bottom:2%;
+	font-family:hind-medium;
+}
+.icons
+{
+	width: 80px;
+	height:auto;
+	float:left;
+	text-align: right;
+	padding-top:1%;
+	padding-bottom:2%;
+	font-family:hind-medium;
+}
+.icons a
+{
+    color:black;
+}
+
+.icons i
+{
+	padding-left:0%;
+	font-weight:bold;
+}
+.lists > p
+{
+	display:inline;
+}
+.btns
+{
+	background:#229edf;
+	height:auto;
+	padding-top:1.9%;
+	padding-bottom:4%;
+	width:25%;
+	margin-top:0% !important;
+	float:left;
+	line-height:24px;
+}
+.conten
+{
+	width: 70%;
+	height: auto;
+	float:left;
+	margin-left:2%;
+}
+#prdct-model-content
+{
+    background-color:white;
+    width: 100%;
+    padding: 25px;
+    height:auto;
+    font-family:hind-medium;
+}
+#prdct-model-content .table td, .table th
+{
+    padding:5px;
+    font-size: 13px;
+}
+#prdct-model-body
+{
+    padding-left:0px;
+}
+#prdct-model-body p
+{
+    color:black;
+    font-size: 14px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    text-align:center;
+}
+#prdct-model-body .table
+{
+    margin-top:20px;
+}
