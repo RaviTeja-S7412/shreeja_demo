@@ -292,11 +292,14 @@ public function insertOrder(){
 	
 	
 	$minAmt = $this->db->get_where("tbl_charges",array("chargeType"=>"minOrder","status"=>"Active","deliveryType"=>$order_type))->row();
+
+	$this->db->where("sdate >='".date("Y-m-d")."' AND sdate <= '".date("Y-m-d")."'");
+	$this->db->or_where("edate >='".date("Y-m-d")."' AND edate <= '".date("Y-m-d")."'");
+	$subChk = $this->db->get_where("orders",array("payment_status"=>"Success","order_type"=>"subscribe","user_id"=>$uid))->num_rows();
 	
 	if($minAmt){
 		
-		
-		if($total_order_amount < $minAmt->minimumCharges){
+		if($total_order_amount < $minAmt->minimumCharges && $subChk == 0){
 			
 			$msg = '<div class="alert alert-danger">Cart value should be greater than &#8377; '.$minAmt->minimumCharges.'.</div>';
 		
@@ -599,12 +602,14 @@ public function checkPromo(){
 					if($disPrice < $exsAmount){
 
 						echo json_encode(array("status"=>"success","msg"=>"Coupon Successfully Applied","disPrice"=>$disPrice,"totalAmount"=>$offAmount));
+						exit;
 					
 					}
 
 				}else{
 								
 					echo json_encode(array("status"=>"error","msg"=>"Coupon Not Valid"));
+					exit;
 
 				}
 					
@@ -621,10 +626,12 @@ public function checkPromo(){
 					if($disPrice < $exsAmount){
 						
 						echo json_encode(array("status"=>"success","msg"=>"Coupon Successfully Applied","disPrice"=>$disPrice,"totalAmount"=>$offAmount));
+						exit;
 						
 					}else{
 								
 						echo json_encode(array("status"=>"error","msg"=>"Coupon Not Valid"));
+						exit;
 
 					}
 				}
@@ -637,6 +644,7 @@ public function checkPromo(){
 	}else{
 		
 		echo json_encode(array("status"=>"error","msg"=>"Coupon Not Valid"));
+		exit;
 		
 	}
 	

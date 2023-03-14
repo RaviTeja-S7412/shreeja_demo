@@ -66,10 +66,8 @@
                     <!-- Column -->
                     <div class="col-lg-12">
                        
-                       
-<!--
-                       <div class="row">   
-						  <div class="col-md-5">   
+                    <div class="row">   
+						  <div class="col-md-4">   
 							<div class="form-group">
 								<label>Select Start & End Date :</label>
 								<div class="input-daterange input-group" id="date-range">
@@ -82,7 +80,7 @@
 							</div>
 						  </div>
 						 
-				      	  <div class="col-md-3">   
+				      	  <!--<div class="col-md-3">   
 							<div class="form-group">
 								<label>Shift :</label>
 								<div class="form-group">
@@ -98,7 +96,7 @@
 								</div>
 							</div>
 						  </div>	
-				      
+-->				      
 					      <div class="col-md-3">
 					      	
 					      	<button id="filter" type="button" class="btn btn-info waves-effect waves-light m-t-30">Submit</button>
@@ -106,7 +104,7 @@
 					      </div> 
 						      
 					   </div>
--->
+
                        
                        
                         <div class="card" style="border: 0px">
@@ -118,6 +116,8 @@
                                                 <th>S.No</th>
                                                 <th>Date</th>
                                                 <th>Order ID</th>
+                                                <th>City</th>
+                                                <th>Total Amount</th>
                                                 <th>Customer Name</th>
                                                 <th>Mobile Number</th>
                                                 <th>Delivery Address</th>
@@ -135,14 +135,16 @@
                                     </table>
                                 </div>
                                 
-<!--
+
                                 <div class="table-responsive zero_config1" style="display: none">
                                     <table class="table product-overview table-striped" id="zero_config1">
                                         <thead>
                                             <tr>
-                                                <th>S.No</th>
+                                            <th>S.No</th>
                                                 <th>Date</th>
                                                 <th>Order ID</th>
+                                                <th>City</th>
+                                                <th>Total Amount</th>
                                                 <th>Customer Name</th>
                                                 <th>Mobile Number</th>
                                                 <th>Delivery Address</th>
@@ -152,13 +154,14 @@
                                                 <th>Shift</th>
                                                 <th>Assigned To</th>
                                                 <th>Delivery Status</th>
+                                                <th>Order Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         
                                     </table>
                                 </div>
--->
+
                                 
                                 
                                 
@@ -268,60 +271,63 @@ $("#zero_config").on("click",".getOid",function(){
 
  });	
 	
-//	
-//$("#filter").click(function(){
-//	
-//	$(".zero_config").hide();
-//	$(".zero_config1").show();
-//
-//	var sdate = $("#sdate").val();
-//	var edate = $("#edate").val();
-//	var shift = $("#shift").val();
-//	
-//	var table = $('#zero_config1').dataTable({
-//         "bProcessing": true,
-//         "ajax": {
-//			"url": "<?php echo base_url("orders/Consumerorders/filterallOrders") ?>",
-//			"type": "POST",
-//			"data" : {sdate : sdate, edate : edate, shift : shift},
-////			"success" : function(data){
-////				
-////				console.log(data);
-////				
-////			},
-////			"error" : function(data){
-////				
-////				console.log(data);
-////				
-////			} 
-//  		  },
-//         "aoColumns": [
-//			 
-//               { mData: 'sno' } ,
-//               { mData: 'Date' } ,
-//               { mData: 'Order_ID' },
-//               { mData: 'Name' },
-//               { mData: 'Mobile' },
-//               { mData: 'Address' },
-//               { mData: 'cAddress' },
-//               { mData: 'Delivery_Date' },
-//               { mData: 'Type_of_Order' },
-//               { mData: 'shift' },
-//               { mData: 'Assigned_To' },
-//               { mData: 'Status' },
-//			 
-//             ],
-//          "aaSorting": [[ 0, "asc" ]],
-//          "bLengthChange": true,
-//          "pageLength":10,
-//		  "destroy" : 'true',
-//		  "dom": 'Bfrtip',
-//		  "buttons": [
-//			 'csv', 'excel', 'pdf'
-//		  ]	
-//      });
-//	
-//})	
+	
+$("#filter").click(function(){
+	
+	$(".zero_config").hide();
+	$(".zero_config1").show();
+
+	var sdate = $("#sdate").val();
+	var edate = $("#edate").val();
+	
+	var table = $('#zero_config1').dataTable({
+        "bProcessing": true,
+        "ajax": {
+			"url": "<?php echo base_url("orders/Invoiceorders/allOrders") ?>",
+			"type": "POST",
+			"data" : {sdate : sdate, edate : edate},
+//			"success" : function(data){
+//				
+//				console.log(data);
+//				
+//			},
+//			"error" : function(data){
+//				
+//				console.log(data);
+//				
+//			} 
+ 		  },
+        "aoColumns": [
+			 
+            { mData: 'sno' } ,
+               { mData: 'Date' } ,
+               { mData: 'Order_ID' },
+               { mData: 'city' },
+               { mData: 'total_amount' },
+               { mData: 'Name' },
+               { mData: 'Mobile' },
+               { mData: 'Address' },
+               { mData: 'cAddress' },
+               { mData: 'Delivery_Date' },
+               { mData: 'Type_of_Order' },
+               { mData: 'shift' },
+               { mData: 'Assigned_To' },
+               { mData: 'Status' },
+               { mData: 'oStatus' },
+               { mData: 'action' },
+			 
+            ],
+         "aaSorting": [[ 0, "asc" ]],
+         "bLengthChange": true,
+         "pageLength":10,
+		  "destroy" : 'true',
+		  "dom": 'Bfrtip',
+		  "buttons": [
+			 'csv', 'excel', 'pdf'
+		  ]	
+     });
+	
+})	
 	
 	
 	var table = $('#zero_config').dataTable({
@@ -335,6 +341,8 @@ $("#zero_config").on("click",".getOid",function(){
                { mData: 'sno' } ,
                { mData: 'Date' } ,
                { mData: 'Order_ID' },
+               { mData: 'city' },
+               { mData: 'total_amount' },
                { mData: 'Name' },
                { mData: 'Mobile' },
                { mData: 'Address' },

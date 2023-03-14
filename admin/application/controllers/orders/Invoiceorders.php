@@ -13,27 +13,69 @@ public function __construct(){
 }
 	
 	
-public function index()
+	public function index()
 	{
 		
 		$this->load->view('orders/admin/invoiceOrders');
 	}
 	
 	
-public function generateInvoice($oid){
+	public function generateInvoice($oid){
 		
 		$data["o"] = $this->db->get_where("orders",array("order_id"=>$oid,"payment_status"=>"Success"))->row();
 		$this->load->view('orders/invoice',$data);		
 		
 	}	
 	
+	public function getOrders($sdate,$edate){
+	
+		// delivery once orders
+		
+		$this->db->select('order_id,user_id,shipping_address,delivery_status,order_type,order_status,date_of_order,user_data,deliveryShift,assigned_to,sub_start_date,sub_end_date,id,total_amount,deliveryonce_date as deliverydate');
+		$this->db->from('orders');
+		$this->db->where("payment_status","Success");
+		$this->db->where("order_type","deliveryonce");
+		$this->db->where('deliveryonce_date >=', date("d-m-Y",strtotime($sdate)));
+		$this->db->where('deliveryonce_date <=', date("d-m-Y",strtotime($edate)));
+		
+		$dorders = $this->db->get()->result();
+	
+	// subscription orders
+		
+		$this->db->select('order_id,user_id,shipping_address,delivery_status,order_type,order_status,date_of_order,user_data,deliveryShift,assigned_to,sub_start_date,sub_end_date,id,total_amount,deliveryonce_date as deliverydate');
+		$this->db->from('orders');
+		$this->db->where("payment_status","Success");
+		$this->db->where("order_type","subscribe");
+		$this->db->where("sdate >='".date("Y-m-d",strtotime($sdate))."' AND sdate <= '".date("Y-m-d",strtotime($edate))."'");
+		$this->db->or_where("edate >='".date("Y-m-d",strtotime($sdate))."' AND edate <= '".date("Y-m-d",strtotime($edate))."'");
+
+		$sorders = $this->db->get()->result();
+		
+	// free sample orders 
+		
+		$this->db->select('order_id,user_id,shipping_address,delivery_status,id,order_type,user_data,order_status,deliveryShift,assigned_to,delivery_date as deliverydate,order_date as date_of_order');
+		$this->db->from('tbl_free_sample_orders');
+		$this->db->where("order_status","Success");
+		
+		$resutset1 = $this->db->get();
+		
+		$fsorders = $resutset1->result();
+		
+			
+		$data = array_merge($dorders,$sorders,$fsorders);
+		
+		return $data;	
+	}
 	
 public function allOrders(){
-	$orders = $this->db->query("select order_id,user_id,shipping_address,delivery_status,order_type,order_status,date_of_order,user_data,deliveryShift,assigned_to,sub_start_date,sub_end_date,id,deliveryonce_date as deliverydate from orders where payment_status='Success' and order_status != 'Pending' order by id desc")->result();
+	
+	/* $orders = $this->db->query("select order_id,user_id,shipping_address,delivery_status,order_type,order_status,date_of_order,user_data,deliveryShift,assigned_to,sub_start_date,sub_end_date,id,total_amount,deliveryonce_date as deliverydate from orders where payment_status='Success' and order_status != 'Pending' order by id desc")->result();
 		
-	$fsorders = $this->db->query("select order_id,user_id,shipping_address,delivery_status,id,order_type,user_data,order_status,deliveryShift,assigned_to,delivery_date as deliverydate,order_date as date_of_order from tbl_free_sample_orders order by id desc")->result();
+	$fsorders = $this->db->query("select order_id,user_id,shipping_address,delivery_status,id,order_type,user_data,order_status,deliveryShift,assigned_to,delivery_date as deliverydate,order_date as date_of_order from tbl_free_sample_orders order by id desc")->result(); */
+	$sdate = $this->input->post("sdate");
+	$edate = $this->input->post("edate");
 		
-	$data = array_merge($orders,$fsorders);	
+	$data = $this->getOrders($sdate,$edate);	
 	
 	$jsonData = array();
 	
@@ -50,13 +92,15 @@ public function allOrders(){
 				
 	if(json_decode($u->user_data)){
 											   
-						   $udata = json_decode($u->user_data);
+		$udata = json_decode($u->user_data);
 
-					   }else{
+	}else{
 
-						  $udata = $this->db->get_where("shreeja_users",array("userid"=>$u->user_id,"user_status"=>0))->row();	   
+		$udata = $this->db->get_where("shreeja_users",array("userid"=>$u->user_id,"user_status"=>0))->row();	   
 
-					   }	
+	}
+	
+	$cData = $this->db->select("location")->get_where("tbl_locations",["id"=>$udata->user_location])->row();
 		
 	   if($u->assigned_to != ""){
 
@@ -100,6 +144,8 @@ public function allOrders(){
 				$nData1["sno"] = $id;
 				$nData1["Date"] = date("Y-m-d",strtotime($u->date_of_order));
 				$nData1["Order_ID"] = $u->order_id;
+				$nData1["city"] = $cData->location;
+				$nData1["total_amount"] = $u->total_amount." Rs/-";
 				$nData1["Name"] = $udata->user_name;
 				$nData1["Mobile"] =  $udata->user_mobile;
 				$nData1["Address"] = nl2br($u->shipping_address);
@@ -122,7 +168,7 @@ public function allOrders(){
 		   
 	   }else{
 		    
-		
+		if(strtotime(date("Y-m-d",strtotime($u->deliverydate))) >= strtotime($sdate) && (strtotime(date("Y-m-d",strtotime($u->deliverydate))) <= strtotime($edate))){
 		    if($u->delivery_status == "Success"){
 														
 				$status = '<span class="badge badge-success" style="color:white">Success</span>';
@@ -152,6 +198,8 @@ public function allOrders(){
 			$nData["sno"] = $id;
 			$nData["Date"] = date("Y-m-d",strtotime($u->date_of_order));
 			$nData["Order_ID"] = $u->order_id;
+			$nData["city"] = $cData->location;
+			$nData["total_amount"] = ($u->order_type == "freesample" ? "0 Rs/-" : $u->total_amount." Rs/-");
 			$nData["Name"] = $udata->user_name;
 			$nData["Mobile"] =  $udata->user_mobile;
 			$nData["Address"] = nl2br($u->shipping_address);
@@ -166,6 +214,7 @@ public function allOrders(){
 			$jsonData[] = $nData;
 
 			$id++;
+		}
 	}}
 	
 	

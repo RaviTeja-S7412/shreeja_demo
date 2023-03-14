@@ -2196,17 +2196,21 @@ public function order_product(){
         
         $dtype = $object[0]->delevery_type;
         
-         $total_amount = $object[0]->total_amount + $gst;
-	     $minAmt = $this->db->get_where("tbl_charges",array("chargeType"=>"minOrder","status"=>"Active","deliveryType"=>$dtype))->row();
-	        	if($minAmt){
-		
-            		if($total_amount < $minAmt->minimumCharges){
-            			
-            			$msg = 'Cart value should be greater than'.$minAmt->minimumCharges;
-            			return array("status"=>false,"message"=>$msg);
-            
-            		}
-            	}
+        $total_amount = $object[0]->total_amount + $gst;
+	    $minAmt = $this->db->get_where("tbl_charges",array("chargeType"=>"minOrder","status"=>"Active","deliveryType"=>$dtype))->row();
+
+		$this->db->where("sdate >='".date("Y-m-d")."' AND sdate <= '".date("Y-m-d")."'");
+		$this->db->or_where("edate >='".date("Y-m-d")."' AND edate <= '".date("Y-m-d")."'");	
+		$subChk = $this->db->get_where("orders",array("payment_status"=>"Success","order_type"=>"subscribe","user_id"=>$uid))->num_rows();
+		if($minAmt){
+
+			if($total_amount < $minAmt->minimumCharges && $subChk == 0){
+				
+				$msg = 'Cart value should be greater than'.$minAmt->minimumCharges;
+				return array("status"=>false,"message"=>$msg);
+	
+			}
+		}
             	
         $cf = $this->offers_api->check_value_offer_on_this_day($dtype,$total_amount,$uid);
 	    //return $cf;
